@@ -15,6 +15,7 @@ android {
 dependencies {
     // Core
     implementation(project(":core:common"))
+    implementation(libs.androidx.core.ktx)
 
     // Compose BOM
     api(platform(libs.compose.bom))

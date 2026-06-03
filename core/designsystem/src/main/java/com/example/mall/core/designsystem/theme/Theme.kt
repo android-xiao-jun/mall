@@ -1,15 +1,18 @@
 package com.example.mall.core.designsystem.theme
 
+import android.app.Activity
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.darkColorScheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalView
+import androidx.core.view.WindowCompat
 import com.example.mall.core.common.theme.ThemeManager
 import com.example.mall.core.common.theme.ThemeMode
 
@@ -74,6 +77,19 @@ fun MallTheme(
     val extendedColors = when {
         darkTheme -> DarkExtendedColorPalette
         else -> LightExtendedColorPalette
+    }
+
+    // 同步状态栏 / 导航栏图标明暗：
+    // Light 主题 → 深色图标（isAppearanceLight = true）
+    // Dark 主题 → 浅色图标（isAppearanceLight = false）
+    val view = LocalView.current
+    if (!view.isInEditMode) {
+        SideEffect {
+            val window = (view.context as? Activity)?.window ?: return@SideEffect
+            val insetsController = WindowCompat.getInsetsController(window, view)
+            insetsController.isAppearanceLightStatusBars = !darkTheme
+            insetsController.isAppearanceLightNavigationBars = !darkTheme
+        }
     }
 
     CompositionLocalProvider(LocalExtendedColorPalette provides extendedColors) {
