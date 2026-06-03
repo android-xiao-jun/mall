@@ -7,6 +7,10 @@ plugins {
     alias(libs.plugins.kotlin.serialization) apply false
     alias(libs.plugins.ksp) apply false
     alias(libs.plugins.hilt) apply false
+
+    // Code Quality - 应用到根项目以生成 ktlintCheck / detekt 聚合任务
+    alias(libs.plugins.ktlint)
+    alias(libs.plugins.detekt)
 }
 
 /**
@@ -41,4 +45,12 @@ subprojects {
             }
         }
     }
+}
+
+// ============================================================
+// Detekt 配置：统一指定配置文件路径
+// ============================================================
+detekt {
+    config.setFrom("$rootDir/detekt-config.yml")
+    buildUponDefaultConfig = true
 }

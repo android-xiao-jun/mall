@@ -5,6 +5,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.darkColorScheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.graphics.Color
@@ -57,6 +58,7 @@ private val DarkColorScheme = darkColorScheme(
  * - 动态颜色（Android 12+ Material You）
  * - Dark / Light / System 主题切换
  * - 通过 ThemeManager 运行时切换，无需 recreate
+ * - 扩展颜色调色板（通过 MallExtendedTheme.colors 访问）
  */
 @Composable
 fun MallTheme(
@@ -65,24 +67,23 @@ fun MallTheme(
     content: @Composable () -> Unit,
 ) {
     val colorScheme = when {
-        dynamicColor && android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.S -> {
-            val context = LocalContext.current
-            if (darkTheme) {
-                androidx.compose.material3.dynamicDarkColorScheme(context)
-            } else {
-                androidx.compose.material3.dynamicLightColorScheme(context)
-            }
-        }
         darkTheme -> DarkColorScheme
         else -> LightColorScheme
     }
 
-    MaterialTheme(
-        colorScheme = colorScheme,
-        typography = MallTypography,
-        shapes = MallShapes,
-        content = content,
-    )
+    val extendedColors = when {
+        darkTheme -> DarkExtendedColorPalette
+        else -> LightExtendedColorPalette
+    }
+
+    CompositionLocalProvider(LocalExtendedColorPalette provides extendedColors) {
+        MaterialTheme(
+            colorScheme = colorScheme,
+            typography = MallTypography,
+            shapes = MallShapes,
+            content = content,
+        )
+    }
 }
 
 /**
