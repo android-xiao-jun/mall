@@ -9,20 +9,6 @@ plugins {
 
 android {
     namespace = "com.example.mall.feature.login"
-    compileSdk = 35
-
-    defaultConfig {
-        minSdk = 24
-    }
-
-    compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_11
-        targetCompatibility = JavaVersion.VERSION_11
-    }
-
-    kotlinOptions {
-        jvmTarget = "11"
-    }
 
     buildFeatures {
         compose = true
@@ -64,10 +50,4 @@ dependencies {
     // Debug
     debugImplementation(libs.compose.ui.tooling)
 
-    // Testing
-    testImplementation(libs.junit5.api)
-    testRuntimeOnly(libs.junit5.engine)
-    testImplementation(libs.mockk)
-    testImplementation(libs.kotlinx.coroutines.test)
-    testImplementation(libs.turbine)
 }

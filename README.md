@@ -18,6 +18,8 @@
 | 网络 | Retrofit + OkHttp + Kotlin Serialization |
 | 数据库 | Room |
 | 本地存储 | DataStore (Preferences) |
+| 国际化 | LocaleManager（运行时动态切换语言，7+ 语言） |
+| 主题 | ThemeManager（运行时切换 Dark/Light/System） |
 | 图片加载 | Coil |
 | 分页 | Paging3 |
 | 异步 | Coroutines + Flow |
@@ -33,11 +35,11 @@
 MallDemo/
 ├── app/                          # 壳工程：Application、MainActivity、导航、Hilt 绑定
 ├── core/
-│   ├── common/                   # 通用工具：Result 封装、Dispatcher、TokenProvider 接口
-│   ├── ui/                       # Compose 通用组件：BaseViewModel (MVI)、LoadingPage 等
+│   ├── common/                   # 通用工具：Result、Dispatcher、TokenProvider、LocaleManager、ThemeManager
+│   ├── ui/                       # Compose 通用组件：BaseActivity、BaseViewModel (MVI)、LoadingPage 等
 │   ├── network/                  # 网络层：Retrofit、OkHttp 拦截器、多环境配置
 │   ├── database/                 # 数据库层：Room、DAO、Migration
-│   ├── datastore/                # 本地存储：DataStore、Token/用户信息持久化
+│   ├── datastore/                # 本地存储：DataStore、Token/用户信息/语言/主题持久化
 │   ├── navigation/               # 导航路由：Routes、BottomNavItem
 │   ├── designsystem/             # 设计系统：Theme（Light/Dark/DynamicColor）、Color、Typography、Shape
 │   ├── model/                    # 数据模型：DTO、Entity
@@ -53,7 +55,7 @@ MallDemo/
 │   ├── gift/                     # 礼物系统：礼物列表、发送、动画
 │   ├── wallet/                   # 钱包：余额、充值、提现、交易记录
 │   ├── profile/                  # 个人中心：用户信息、等级、VIP
-│   └── setting/                  # 设置：主题、语言、缓存清理
+│   └── setting/                  # 设置：主题切换、语言切换、缓存清理
 ├── gradle/
 │   └── libs.versions.toml        # Version Catalog：统一版本管理
 └── build.gradle.kts              # 根构建配置
@@ -67,15 +69,15 @@ MallDemo/
 
 ```
 app ──→ feature:* ──→ core:*
-                      ├── core:common    ← 最底层，无其他 core 依赖
+                      ├── core:common    ← 最底层：Result、Dispatcher、LocaleManager、ThemeManager
                       ├── core:model     ← 纯数据模型，无依赖
                       ├── core:domain    ← 依赖 core:common, core:model
                       ├── core:network   ← 依赖 core:common (接口解耦)
                       ├── core:database  ← 依赖 core:model
-                      ├── core:datastore ← 依赖 core:common (实现 TokenProvider)
-                      ├── core:ui        ← 依赖 core:common
+                      ├── core:datastore ← 依赖 core:common (实现 TokenProvider、持久化语言/主题)
+                      ├── core:ui        ← 依赖 core:common, core:designsystem (BaseActivity)
                       ├── core:navigation← 纯路由定义
-                      ├── core:designsystem ← Compose 主题
+                      ├── core:designsystem ← 依赖 core:common (Compose 主题 + ThemeManager 集成)
                       └── core:player    ← 播放器封装
 ```
 
@@ -191,14 +193,50 @@ app                 → @Binds 将 UserDataStore 绑定为 TokenProvider
 
 ## 设计系统
 
-### 主题
+### 主题切换（ThemeManager）
+
+支持运行时切换 Dark / Light / System 主题，**无需 recreate Activity**，Compose UI 通过 `StateFlow` 自动响应。
 
 ```kotlin
-MallTheme(
-    darkTheme = isSystemInDarkTheme(),  // 跟随系统
-    dynamicColor = true,                 // Android 12+ Dynamic Color
-) {
+// 方式一：响应式主题（自动订阅 ThemeManager，推荐）
+MallTheme(themeManager = themeManager) {
+    // 切换主题时 UI 自动刷新，无需手动 recreate
+}
+
+// 方式二：手动指定
+MallTheme(darkTheme = isSystemInDarkTheme(), dynamicColor = true) {
     // 你的 Compose 内容
+}
+```
+
+主题状态通过 DataStore 持久化，App 重启后自动恢复用户选择。
+
+### 主题模式
+
+| 模式 | 代码 | 说明 |
+|---|---|---|
+| System | `ThemeMode.SYSTEM` | 跟随系统深色模式设置 |
+| Light | `ThemeMode.LIGHT` | 强制浅色模式 |
+| Dark | `ThemeMode.DARK` | 强制深色模式 |
+
+### BaseActivity 集成
+
+所有 Activity 继承 `BaseActivity`（定义在 `core:ui`），自动获得：
+- `attachBaseContext` 中应用语言 Context 包装
+- `onConfigurationChanged` 中重新应用语言设置
+- `themeManager` / `localeManager` 通过 Hilt 注入
+
+```kotlin
+@AndroidEntryPoint
+class MainActivity : BaseActivity() {
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContent {
+            MallTheme(themeManager = themeManager) {
+                // content
+            }
+        }
+    }
 }
 ```
 
@@ -220,6 +258,187 @@ MallTheme(
 | DiamondBlue | `#00B4D8` | 钻石/虚拟货币 |
 | CoinOrange | `#FF9F43` | 金币 |
 | OnlineGreen | `#2ECC71` | 在线状态 |
+
+## 基础能力框架
+
+### MultiDex 支持
+
+解决 64K 方法数限制问题，确保项目在引入大量第三方库后仍能正常构建和运行。
+
+**Gradle 配置**（`app/build.gradle.kts`）：
+
+```kotlin
+android {
+    defaultConfig {
+        multiDexEnabled = true
+    }
+}
+
+dependencies {
+    implementation(libs.androidx.multidex)
+}
+```
+
+**Application 初始化**：
+
+```kotlin
+@HiltAndroidApp
+class MallApplication : Application() {
+    override fun onCreate() {
+        super.onCreate()
+        MultiDex.install(this)  // minSdk >= 21 时系统自动支持，显式调用确保兼容
+    }
+}
+```
+
+**主 Dex 优化**（`proguard-rules.pro`）：
+
+```proguard
+# 保证启动类优先进入主 dex
+-keep class androidx.multidex.** { *; }
+-keep class com.example.mall.MallApplication { *; }
+-keep class * extends android.app.Application { *; }
+-keep class * extends android.content.ContentProvider { *; }
+```
+
+### 多语言切换框架（i18n）
+
+支持运行时动态切换语言，**无需强制重启 Activity**，兼容 Android 7 ~ Android 14。
+
+**支持语言**：
+
+| 语言 | 代码 | 方向 |
+|---|---|---|
+| 跟随系统 | `system` | - |
+| 简体中文 | `zh` | LTR |
+| English | `en` | LTR |
+| Español | `es` | LTR |
+| العربية | `ar` | RTL |
+| Русский | `ru` | LTR |
+| Қазақ | `kk` | LTR |
+| ئۇيغۇرچە | `ug` | RTL |
+
+**核心设计 — LocaleManager**（定义在 `core:common`）：
+
+```kotlin
+// 切换语言（运行时生效，无需重启）
+localeManager.setLanguage(AppLanguage.EN)
+localeManager.updateApplicationLocale()
+
+// 获取当前语言
+val current = localeManager.getCurrentLanguage()  // AppLanguage.EN
+
+// 观察 Locale 变化
+localeManager.localeChangeFlow.collect { locale -> ... }
+```
+
+**Context 包装机制**：
+
+```
+Activity.attachBaseContext       → localeManager.wrapContext(base)       → 资源加载使用正确语言
+Activity.onConfigurationChanged  → localeManager.applyToConfiguration() → 系统配置变化时重新应用
+Application.onCreate             → localeManager.updateApplicationLocale() → Toast/Notification 等非 Activity 场景生效
+```
+
+**语言持久化**：通过 `UserDataStore`（DataStore Preferences）自动持久化，App 重启后恢复用户选择。
+
+**DI 集成**（`app/di/LocaleModule`）：
+
+```kotlin
+@Module
+@InstallIn(SingletonComponent::class)
+object LocaleModule {
+    @Provides @Singleton
+    fun provideLocaleManager(appContext: Context, userDataStore: UserDataStore): LocaleManager {
+        return LocaleManager(
+            context = appContext,
+            persistLanguage = { code -> userDataStore.saveLanguage(code) },
+            getPersistedLanguageFlow = { userDataStore.getLanguageFlow() },
+        )
+    }
+}
+```
+
+**多语言资源**：`app/src/main/res/` 下按标准 Android 资源限定符组织：
+
+```
+values/          → 默认（简体中文）
+values-en/       → English
+values-es/       → Español
+values-ar/       → العربية (RTL)
+values-ru/       → Русский
+values-kk/       → Қазақ
+values-ug/       → ئۇيغۇرچە (RTL)
+```
+
+### 主题切换框架（Theme System）
+
+支持运行时切换 Dark / Light / System 主题，Compose UI 通过 `StateFlow` 自动响应，**无需 recreate Activity**。
+
+**核心设计 — ThemeManager**（定义在 `core:common`）：
+
+```kotlin
+// 切换主题（Compose UI 自动刷新）
+themeManager.setThemeMode(ThemeMode.DARK)
+
+// 获取当前主题
+val mode = themeManager.currentThemeMode  // ThemeMode.DARK
+
+// 观察主题变化
+themeManager.themeModeFlow.collect { mode -> ... }
+```
+
+**MallTheme 响应式集成**：
+
+```kotlin
+// 自动订阅 ThemeManager，切换主题无需手动 recreate
+MallTheme(themeManager = themeManager) {
+    Surface(modifier = Modifier.fillMaxSize()) {
+        // content
+    }
+}
+```
+
+**主题持久化**：通过 `UserDataStore` 自动持久化，App 重启后恢复用户选择。
+
+**XML 主题适配**（`app/src/main/res/values/`）：
+
+```
+values/themes.xml       → Light 主题（透明状态栏/导航栏）
+values-night/themes.xml → Dark  主题（透明状态栏/导航栏 + 深色背景）
+```
+
+**DI 集成**（`app/di/ThemeModule`）：
+
+```kotlin
+@Module
+@InstallIn(SingletonComponent::class)
+object ThemeModule {
+    @Provides @Singleton
+    fun provideThemeManager(userDataStore: UserDataStore): ThemeManager {
+        return ThemeManager(
+            persistThemeMode = { code -> userDataStore.saveThemeMode(code) },
+            getPersistedThemeModeFlow = { userDataStore.getThemeModeFlow() },
+        )
+    }
+}
+```
+
+### 基础能力框架文件清单
+
+| 能力 | 核心文件 | 位置 |
+|---|---|---|
+| MultiDex | `MallApplication.kt` | `app/` |
+| MultiDex | `proguard-rules.pro` | `app/` |
+| MultiDex | `libs.versions.toml` | `gradle/` |
+| i18n | `LocaleManager.kt` + `AppLanguage` | `core:common/i18n/` |
+| i18n | `BaseActivity.kt` | `core:ui/activity/` |
+| i18n | `LocaleModule.kt` | `app/di/` |
+| i18n | `strings.xml` × 7 | `app/res/values-{locale}/` |
+| Theme | `ThemeManager.kt` + `ThemeMode` | `core:common/theme/` |
+| Theme | `MallTheme(themeManager)` | `core:designsystem/theme/Theme.kt` |
+| Theme | `ThemeModule.kt` | `app/di/` |
+| Theme | `themes.xml` (Light/Dark) | `app/res/values{-night}/` |
 
 ## Feature 模块规范
 
@@ -335,7 +554,6 @@ KEY_PASSWORD=your_key_password
 | Build Variant | 环境 | ApplicationId |
 |---|---|---|
 | debug | DEV | com.example.mall.debug |
-| staging | TEST | com.example.mall.staging |
 | release | PROD | com.example.mall |
 
 ## 构建配置
@@ -362,6 +580,7 @@ KEY_PASSWORD=your_key_password
 | Room | 2.7.1 |
 | DataStore | 1.1.7 |
 | Coroutines | 1.10.2 |
+| MultiDex | 2.0.1 |
 
 ## CI/CD
 

@@ -1,8 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!-- Dark application theme -->
     <style name="Theme.Mall" parent="android:Theme.Material.NoActionBar">
         <item name="android:statusBarColor">@android:color/transparent</item>
         <item name="android:navigationBarColor">@android:color/transparent</item>
         <item name="android:windowLightStatusBar">false</item>
+        <item name="android:windowLightNavigationBar">false</item>
+    </style>
+
+    <!-- Splash screen theme (Dark, avoid theme flash on cold start) -->
+    <style name="Theme.Mall.Splash" parent="Theme.Mall">
+        <item name="android:windowBackground">@android:color/black</item>
     </style>
 </resources>

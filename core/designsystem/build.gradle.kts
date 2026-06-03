@@ -6,20 +6,6 @@ plugins {
 
 android {
     namespace = "com.example.mall.core.designsystem"
-    compileSdk = 35
-
-    defaultConfig {
-        minSdk = 24
-    }
-
-    compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_11
-        targetCompatibility = JavaVersion.VERSION_11
-    }
-
-    kotlinOptions {
-        jvmTarget = "11"
-    }
 
     buildFeatures {
         compose = true
@@ -27,6 +13,9 @@ android {
 }
 
 dependencies {
+    // Core
+    implementation(project(":core:common"))
+
     // Compose BOM
     api(platform(libs.compose.bom))
     api(libs.compose.ui)
@@ -42,7 +31,4 @@ dependencies {
     // Coil
     api(libs.coil.compose)
 
-    // Testing
-    testImplementation(libs.junit5.api)
-    testRuntimeOnly(libs.junit5.engine)
 }

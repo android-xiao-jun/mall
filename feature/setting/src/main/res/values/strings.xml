@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="setting_title">设置</string>
+    <string name="setting_language">语言</string>
+    <string name="setting_theme">主题</string>
+    <string name="setting_theme_light">浅色</string>
+    <string name="setting_theme_dark">深色</string>
+    <string name="setting_theme_system">跟随系统</string>
+    <string name="setting_language_system">跟随系统</string>
+</resources>

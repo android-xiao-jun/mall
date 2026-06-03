@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Mall</string>
+
+    <!-- Common -->
+    <string name="common_confirm">Confirm</string>
+    <string name="common_cancel">Cancel</string>
+    <string name="common_save">Save</string>
+    <string name="common_delete">Delete</string>
+    <string name="common_edit">Edit</string>
+    <string name="common_search">Search</string>
+    <string name="common_loading">Loading…</string>
+    <string name="common_retry">Retry</string>
+    <string name="common_no_data">No data</string>
+    <string name="common_error">Operation failed, please try again later</string>
+    <string name="common_success">Success</string>
+
+    <!-- Bottom Navigation -->
+    <string name="nav_home">Home</string>
+    <string name="nav_chat">Chat</string>
+    <string name="nav_live">Live</string>
+    <string name="nav_wallet">Wallet</string>
+    <string name="nav_profile">Me</string>
+
+    <!-- Login -->
+    <string name="login_title">Login</string>
+    <string name="login_phone_hint">Enter phone number</string>
+    <string name="login_code_hint">Enter verification code</string>
+    <string name="login_get_code">Get Code</string>
+    <string name="login_submit">Login</string>
+
+    <!-- Wallet -->
+    <string name="wallet_title">Wallet</string>
+    <string name="wallet_balance">Balance</string>
+    <string name="wallet_recharge">Recharge</string>
+    <string name="wallet_withdraw">Withdraw</string>
+
+    <!-- Live -->
+    <string name="live_title">Live</string>
+    <string name="live_start">Start Live</string>
+    <string name="live_end">End Live</string>
+    <string name="live_audience_count">%1$d watching</string>
+
+    <!-- Voice Room -->
+    <string name="voice_room_title">Voice Room</string>
+    <string name="voice_room_create">Create Room</string>
+    <string name="voice_room_join">Join Room</string>
+
+    <!-- Gift -->
+    <string name="gift_title">Gift</string>
+    <string name="gift_send">Send</string>
+
+    <!-- Chat -->
+    <string name="chat_title">Chat</string>
+    <string name="chat_input_hint">Type a message…</string>
+    <string name="chat_send">Send</string>
+</resources>

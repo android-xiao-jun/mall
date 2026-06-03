@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Mall</string>
+
+    <!-- Común -->
+    <string name="common_confirm">Confirmar</string>
+    <string name="common_cancel">Cancelar</string>
+    <string name="common_save">Guardar</string>
+    <string name="common_delete">Eliminar</string>
+    <string name="common_edit">Editar</string>
+    <string name="common_search">Buscar</string>
+    <string name="common_loading">Cargando…</string>
+    <string name="common_retry">Reintentar</string>
+    <string name="common_no_data">Sin datos</string>
+    <string name="common_error">Operación fallida, inténtelo más tarde</string>
+    <string name="common_success">Éxito</string>
+
+    <!-- Navegación -->
+    <string name="nav_home">Inicio</string>
+    <string name="nav_chat">Chat</string>
+    <string name="nav_live">En vivo</string>
+    <string name="nav_wallet">Billetera</string>
+    <string name="nav_profile">Yo</string>
+
+    <!-- Inicio de sesión -->
+    <string name="login_title">Iniciar sesión</string>
+    <string name="login_phone_hint">Introduce tu número de teléfono</string>
+    <string name="login_code_hint">Introduce el código de verificación</string>
+    <string name="login_get_code">Obtener código</string>
+    <string name="login_submit">Iniciar sesión</string>
+
+    <!-- Billetera -->
+    <string name="wallet_title">Billetera</string>
+    <string name="wallet_balance">Saldo</string>
+    <string name="wallet_recharge">Recargar</string>
+    <string name="wallet_withdraw">Retirar</string>
+
+    <!-- En vivo -->
+    <string name="live_title">En vivo</string>
+    <string name="live_start">Iniciar transmisión</string>
+    <string name="live_end">Finalizar transmisión</string>
+    <string name="live_audience_count">%1$d viendo</string>
+
+    <!-- Sala de voz -->
+    <string name="voice_room_title">Sala de voz</string>
+    <string name="voice_room_create">Crear sala</string>
+    <string name="voice_room_join">Unirse</string>
+
+    <!-- Regalo -->
+    <string name="gift_title">Regalo</string>
+    <string name="gift_send">Enviar</string>
+
+    <!-- Chat -->
+    <string name="chat_title">Chat</string>
+    <string name="chat_input_hint">Escribe un mensaje…</string>
+    <string name="chat_send">Enviar</string>
+</resources>

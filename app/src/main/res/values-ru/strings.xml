@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Mall</string>
+
+    <!-- Общие -->
+    <string name="common_confirm">Подтвердить</string>
+    <string name="common_cancel">Отмена</string>
+    <string name="common_save">Сохранить</string>
+    <string name="common_delete">Удалить</string>
+    <string name="common_edit">Редактировать</string>
+    <string name="common_search">Поиск</string>
+    <string name="common_loading">Загрузка…</string>
+    <string name="common_retry">Повторить</string>
+    <string name="common_no_data">Нет данных</string>
+    <string name="common_error">Ошибка, попробуйте позже</string>
+    <string name="common_success">Успешно</string>
+
+    <!-- Навигация -->
+    <string name="nav_home">Главная</string>
+    <string name="nav_chat">Чат</string>
+    <string name="nav_live">Трансляции</string>
+    <string name="nav_wallet">Кошелёк</string>
+    <string name="nav_profile">Профиль</string>
+
+    <!-- Вход -->
+    <string name="login_title">Вход</string>
+    <string name="login_phone_hint">Введите номер телефона</string>
+    <string name="login_code_hint">Введите код подтверждения</string>
+    <string name="login_get_code">Получить код</string>
+    <string name="login_submit">Войти</string>
+
+    <!-- Кошелёк -->
+    <string name="wallet_title">Кошелёк</string>
+    <string name="wallet_balance">Баланс</string>
+    <string name="wallet_recharge">Пополнить</string>
+    <string name="wallet_withdraw">Вывести</string>
+
+    <!-- Трансляции -->
+    <string name="live_title">Трансляции</string>
+    <string name="live_start">Начать трансляцию</string>
+    <string name="live_end">Завершить трансляцию</string>
+    <string name="live_audience_count">%1$d зрителей</string>
+
+    <!-- Голосовая комната -->
+    <string name="voice_room_title">Голосовая комната</string>
+    <string name="voice_room_create">Создать комнату</string>
+    <string name="voice_room_join">Присоединиться</string>
+
+    <!-- Подарок -->
+    <string name="gift_title">Подарок</string>
+    <string name="gift_send">Отправить</string>
+
+    <!-- Чат -->
+    <string name="chat_title">Чат</string>
+    <string name="chat_input_hint">Введите сообщение…</string>
+    <string name="chat_send">Отправить</string>
+</resources>

@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="state_loading">Жүктелуде…</string>
+    <string name="state_load_failed">Жүктеу сәтсіз</string>
+    <string name="state_no_data">Деректер жоқ</string>
+    <string name="state_retry">Қайталау</string>
+</resources>

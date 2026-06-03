@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="setting_title">تەڭشەكلەر</string>
+    <string name="setting_language">تىل</string>
+    <string name="setting_theme">تېما</string>
+    <string name="setting_theme_light">يورۇق</string>
+    <string name="setting_theme_dark">قاراڭغۇ</string>
+    <string name="setting_theme_system">سىستېما</string>
+    <string name="setting_language_system">سىستېما</string>
+</resources>

@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Mall</string>
+
+    <!-- عام -->
+    <string name="common_confirm">تأكيد</string>
+    <string name="common_cancel">إلغاء</string>
+    <string name="common_save">حفظ</string>
+    <string name="common_delete">حذف</string>
+    <string name="common_edit">تعديل</string>
+    <string name="common_search">بحث</string>
+    <string name="common_loading">جارٍ التحميل…</string>
+    <string name="common_retry">إعادة المحاولة</string>
+    <string name="common_no_data">لا توجد بيانات</string>
+    <string name="common_error">فشلت العملية، يرجى المحاولة لاحقاً</string>
+    <string name="common_success">تم بنجاح</string>
+
+    <!-- التنقل -->
+    <string name="nav_home">الرئيسية</string>
+    <string name="nav_chat">محادثة</string>
+    <string name="nav_live">مباشر</string>
+    <string name="nav_wallet">المحفظة</string>
+    <string name="nav_profile">حسابي</string>
+
+    <!-- تسجيل الدخول -->
+    <string name="login_title">تسجيل الدخول</string>
+    <string name="login_phone_hint">أدخل رقم الهاتف</string>
+    <string name="login_code_hint">أدخل رمز التحقق</string>
+    <string name="login_get_code">الحصول على الرمز</string>
+    <string name="login_submit">تسجيل الدخول</string>
+
+    <!-- المحفظة -->
+    <string name="wallet_title">المحفظة</string>
+    <string name="wallet_balance">الرصيد</string>
+    <string name="wallet_recharge">شحن</string>
+    <string name="wallet_withdraw">سحب</string>
+
+    <!-- البث المباشر -->
+    <string name="live_title">مباشر</string>
+    <string name="live_start">بدء البث</string>
+    <string name="live_end">إنهاء البث</string>
+    <string name="live_audience_count">%1$d مشاهدة</string>
+
+    <!-- غرفة صوتية -->
+    <string name="voice_room_title">غرفة صوتية</string>
+    <string name="voice_room_create">إنشاء غرفة</string>
+    <string name="voice_room_join">انضمام</string>
+
+    <!-- هدية -->
+    <string name="gift_title">هدية</string>
+    <string name="gift_send">إرسال</string>
+
+    <!-- محادثة -->
+    <string name="chat_title">محادثة</string>
+    <string name="chat_input_hint">اكتب رسالة…</string>
+    <string name="chat_send">إرسال</string>
+</resources>

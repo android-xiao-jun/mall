@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="state_loading">加载中…</string>
+    <string name="state_load_failed">加载失败</string>
+    <string name="state_no_data">暂无数据</string>
+    <string name="state_retry">重试</string>
+</resources>

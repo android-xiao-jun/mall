@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="state_loading">Cargando…</string>
+    <string name="state_load_failed">Error al cargar</string>
+    <string name="state_no_data">Sin datos</string>
+    <string name="state_retry">Reintentar</string>
+</resources>

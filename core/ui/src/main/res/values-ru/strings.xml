@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="state_loading">Загрузка…</string>
+    <string name="state_load_failed">Ошибка загрузки</string>
+    <string name="state_no_data">Нет данных</string>
+    <string name="state_retry">Повторить</string>
+</resources>

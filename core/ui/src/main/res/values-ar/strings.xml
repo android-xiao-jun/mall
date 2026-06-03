@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="state_loading">جارٍ التحميل…</string>
+    <string name="state_load_failed">فشل التحميل</string>
+    <string name="state_no_data">لا توجد بيانات</string>
+    <string name="state_retry">إعادة المحاولة</string>
+</resources>

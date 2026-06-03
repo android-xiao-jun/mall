@@ -7,20 +7,6 @@ plugins {
 
 android {
     namespace = "com.example.mall.core.common"
-    compileSdk = 35
-
-    defaultConfig {
-        minSdk = 24
-    }
-
-    compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_11
-        targetCompatibility = JavaVersion.VERSION_11
-    }
-
-    kotlinOptions {
-        jvmTarget = "11"
-    }
 }
 
 dependencies {
@@ -37,10 +23,4 @@ dependencies {
 
     // AndroidX Core
     implementation(libs.androidx.core.ktx)
-
-    // Testing
-    testImplementation(libs.junit5.api)
-    testRuntimeOnly(libs.junit5.engine)
-    testImplementation(libs.mockk)
-    testImplementation(libs.kotlinx.coroutines.test)
 }

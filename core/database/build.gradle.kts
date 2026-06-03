@@ -7,23 +7,11 @@ plugins {
 
 android {
     namespace = "com.example.mall.core.database"
-    compileSdk = 35
 
     defaultConfig {
-        minSdk = 24
-
         ksp {
             arg("room.schemaLocation", "$projectDir/schemas")
         }
-    }
-
-    compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_11
-        targetCompatibility = JavaVersion.VERSION_11
-    }
-
-    kotlinOptions {
-        jvmTarget = "11"
     }
 }
 
@@ -44,8 +32,4 @@ dependencies {
     // Kotlin Serialization (for TypeConverter)
     implementation(libs.kotlinx.serialization.json)
 
-    // Testing
-    testImplementation(libs.junit5.api)
-    testRuntimeOnly(libs.junit5.engine)
-    testImplementation(libs.mockk)
 }

@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Mall</string>
+
+    <!-- Жалпы -->
+    <string name="common_confirm">Растау</string>
+    <string name="common_cancel">Болдырмау</string>
+    <string name="common_save">Сақтау</string>
+    <string name="common_delete">Жою</string>
+    <string name="common_edit">Өңдеу</string>
+    <string name="common_search">Іздеу</string>
+    <string name="common_loading">Жүктелуде…</string>
+    <string name="common_retry">Қайталау</string>
+    <string name="common_no_data">Деректер жоқ</string>
+    <string name="common_error">Қате, кейінірек қайталап көріңіз</string>
+    <string name="common_success">Сәтті</string>
+
+    <!-- Навигация -->
+    <string name="nav_home">Басты</string>
+    <string name="nav_chat">Чат</string>
+    <string name="nav_live">Тікелей эфир</string>
+    <string name="nav_wallet">Әмиян</string>
+    <string name="nav_profile">Профиль</string>
+
+    <!-- Кіру -->
+    <string name="login_title">Кіру</string>
+    <string name="login_phone_hint">Телефон нөмірін енгізіңіз</string>
+    <string name="login_code_hint">Растау кодын енгізіңіз</string>
+    <string name="login_get_code">Код алу</string>
+    <string name="login_submit">Кіру</string>
+
+    <!-- Әмиян -->
+    <string name="wallet_title">Әмиян</string>
+    <string name="wallet_balance">Баланс</string>
+    <string name="wallet_recharge">Толтыру</string>
+    <string name="wallet_withdraw">Шығару</string>
+
+    <!-- Тікелей эфир -->
+    <string name="live_title">Тікелей эфир</string>
+    <string name="live_start">Эфирді бастау</string>
+    <string name="live_end">Эфирді аяқтау</string>
+    <string name="live_audience_count">%1$d көрермен</string>
+
+    <!-- Дауысты бөлме -->
+    <string name="voice_room_title">Дауысты бөлме</string>
+    <string name="voice_room_create">Бөлме құру</string>
+    <string name="voice_room_join">Қосылу</string>
+
+    <!-- Сыйлық -->
+    <string name="gift_title">Сыйлық</string>
+    <string name="gift_send">Жіберу</string>
+
+    <!-- Чат -->
+    <string name="chat_title">Чат</string>
+    <string name="chat_input_hint">Хабарлама жазыңыз…</string>
+    <string name="chat_send">Жіберу</string>
+</resources>

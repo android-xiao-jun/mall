@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="setting_title">Настройки</string>
+    <string name="setting_language">Язык</string>
+    <string name="setting_theme">Тема</string>
+    <string name="setting_theme_light">Светлая</string>
+    <string name="setting_theme_dark">Тёмная</string>
+    <string name="setting_theme_system">Системная</string>
+    <string name="setting_language_system">Системный</string>
+</resources>

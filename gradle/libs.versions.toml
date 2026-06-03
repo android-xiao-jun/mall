@@ -65,6 +65,9 @@ profileinstaller = "1.4.1"
 # Accompanist
 accompanist = "0.36.0"
 
+# MultiDex
+multidex = "2.0.1"
+
 # AndroidX Test
 junitVersion = "1.3.0"
 espressoCore = "3.7.0"
@@ -130,6 +133,9 @@ firebase-bom = { group = "com.google.firebase", name = "firebase-bom", version.r
 firebase-crashlytics = { group = "com.google.firebase", name = "firebase-crashlytics" }
 firebase-analytics = { group = "com.google.firebase", name = "firebase-analytics" }
 firebase-messaging = { group = "com.google.firebase", name = "firebase-messaging" }
+
+# MultiDex
+androidx-multidex = { group = "androidx.multidex", name = "multidex", version.ref = "multidex" }
 
 # Logging
 timber = { group = "com.jakewharton.timber", name = "timber", version.ref = "timber" }

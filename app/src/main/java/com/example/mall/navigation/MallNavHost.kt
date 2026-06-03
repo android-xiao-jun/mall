@@ -18,18 +18,24 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.res.stringResource
 import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
+import com.example.mall.core.common.i18n.LocaleManager
+import com.example.mall.core.common.theme.ThemeManager
 import com.example.mall.core.navigation.BottomNavItem
+import com.example.mall.core.navigation.SettingRoute
 import com.example.mall.feature.home.presentation.screen.HomeScreen
 import com.example.mall.feature.conversation.presentation.screen.ConversationScreen
 import com.example.mall.feature.live.presentation.screen.LiveListScreen
 import com.example.mall.feature.wallet.presentation.screen.WalletScreen
 import com.example.mall.feature.profile.presentation.screen.ProfileScreen
+import com.example.mall.feature.setting.presentation.screen.SettingScreen
+import com.example.mall.R
 
 private const val ANIM_DURATION = 300
 
@@ -37,6 +43,8 @@ private const val ANIM_DURATION = 300
 fun MallNavHost(
     navController: NavHostController,
     showBottomBar: Boolean,
+    localeManager: LocaleManager,
+    themeManager: ThemeManager,
 ) {
     Scaffold(
         bottomBar = {
@@ -91,7 +99,17 @@ fun MallNavHost(
             }
 
             composable(route = BottomNavItem.PROFILE.route) {
-                ProfileScreen()
+                ProfileScreen(
+                    onNavigateToSetting = { navController.navigate(SettingRoute) },
+                )
+            }
+
+            composable<SettingRoute> {
+                SettingScreen(
+                    localeManager = localeManager,
+                    themeManager = themeManager,
+                    onBack = { navController.popBackStack() },
+                )
             }
         }
     }
@@ -114,10 +132,10 @@ private fun MallBottomBar(
                 icon = {
                     Icon(
                         imageVector = item.icon,
-                        contentDescription = item.label,
+                        contentDescription = stringResource(item.labelResId()),
                     )
                 },
-                label = { Text(text = item.label) },
+                label = { Text(text = stringResource(item.labelResId())) },
                 selected = selected,
                 onClick = {
                     navController.navigate(item.route) {
@@ -141,3 +159,12 @@ private val BottomNavItem.icon: ImageVector
         BottomNavItem.WALLET -> Icons.Filled.AccountBalanceWallet
         BottomNavItem.PROFILE -> Icons.Filled.Person
     }
+
+@Composable
+private fun BottomNavItem.labelResId(): Int = when (this) {
+    BottomNavItem.HOME -> R.string.nav_home
+    BottomNavItem.CONVERSATION -> R.string.nav_chat
+    BottomNavItem.LIVE -> R.string.nav_live
+    BottomNavItem.WALLET -> R.string.nav_wallet
+    BottomNavItem.PROFILE -> R.string.nav_profile
+}

@@ -6,6 +6,8 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
+import com.example.mall.feature.live.R
 
 @Composable
 fun LiveListScreen(
@@ -15,7 +17,7 @@ fun LiveListScreen(
         modifier = Modifier.fillMaxSize(),
         contentAlignment = Alignment.Center,
     ) {
-        Text(text = "直播列表")
+        Text(text = stringResource(R.string.nav_live))
     }
 }
 

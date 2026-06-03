@@ -2,6 +2,15 @@
 -keepattributes SourceFile,LineNumberTable
 -renamesourcefileattribute SourceFile
 
+# ==================== MultiDex ====================
+# 保证 MultiDex 相关类进入主 dex，避免启动时找不到类
+-keep class androidx.multidex.** { *; }
+# 保证 Application 子类在主 dex 中
+-keep class com.example.mall.MallApplication { *; }
+# 保证 ContentProvider 相关类在主 dex 中（Hilt 的 ActivityEntryPoint 等）
+-keep class * extends android.app.Application { *; }
+-keep class * extends android.content.ContentProvider { *; }
+
 # ==================== Kotlin ====================
 -keepclassmembers class kotlin.Metadata {
     *;

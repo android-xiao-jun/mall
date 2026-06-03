@@ -5,7 +5,12 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.darkColorScheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
+import com.example.mall.core.common.theme.ThemeManager
+import com.example.mall.core.common.theme.ThemeMode
 
 private val LightColorScheme = lightColorScheme(
     primary = Primary,
@@ -45,6 +50,14 @@ private val DarkColorScheme = darkColorScheme(
     outlineVariant = Neutral40,
 )
 
+/**
+ * Mall 主题 Composable
+ *
+ * 支持：
+ * - 动态颜色（Android 12+ Material You）
+ * - Dark / Light / System 主题切换
+ * - 通过 ThemeManager 运行时切换，无需 recreate
+ */
 @Composable
 fun MallTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),
@@ -53,7 +66,7 @@ fun MallTheme(
 ) {
     val colorScheme = when {
         dynamicColor && android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.S -> {
-            val context = androidx.compose.ui.platform.LocalContext.current
+            val context = LocalContext.current
             if (darkTheme) {
                 androidx.compose.material3.dynamicDarkColorScheme(context)
             } else {
@@ -68,6 +81,41 @@ fun MallTheme(
         colorScheme = colorScheme,
         typography = MallTypography,
         shapes = MallShapes,
+        content = content,
+    )
+}
+
+/**
+ * 响应式 Mall 主题 Composable
+ *
+ * 自动订阅 ThemeManager 的主题模式变化，
+ * 切换主题时无需手动 recreate Activity。
+ *
+ * 使用方式：
+ * ```kotlin
+ * val themeManager: ThemeManager = ... // Hilt 注入
+ * MallTheme(themeManager = themeManager) {
+ *     // content
+ * }
+ * ```
+ */
+@Composable
+fun MallTheme(
+    themeManager: ThemeManager,
+    dynamicColor: Boolean = true,
+    content: @Composable () -> Unit,
+) {
+    val themeMode by themeManager.themeModeFlow.collectAsState()
+    val isSystemDarkTheme = isSystemInDarkTheme()
+    val darkTheme = when (themeMode) {
+        ThemeMode.DARK -> true
+        ThemeMode.LIGHT -> false
+        ThemeMode.SYSTEM -> isSystemDarkTheme
+    }
+
+    MallTheme(
+        darkTheme = darkTheme,
+        dynamicColor = dynamicColor,
         content = content,
     )
 }

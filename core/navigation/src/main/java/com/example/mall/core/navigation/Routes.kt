@@ -38,13 +38,12 @@ data object SettingRoute
 
 enum class BottomNavItem(
     val route: String,
-    val label: String,
 ) {
-    HOME("home", "首页"),
-    CONVERSATION("conversation", "消息"),
-    LIVE("live_list", "直播"),
-    WALLET("wallet", "钱包"),
-    PROFILE("profile", "我的"),
+    HOME("home"),
+    CONVERSATION("conversation"),
+    LIVE("live_list"),
+    WALLET("wallet"),
+    PROFILE("profile"),
 }
 
 /**

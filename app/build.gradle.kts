@@ -1,3 +1,5 @@
+import java.util.Properties
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
@@ -9,32 +11,40 @@ plugins {
 
 android {
     namespace = "com.example.mall"
-    compileSdk = 35
 
     defaultConfig {
         applicationId = "com.example.mall"
-        minSdk = 24
         targetSdk = 35
         versionCode = 1
         versionName = "1.0.0"
 
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+//        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+
+        // MultiDex 配置：minSdk < 21 时必须启用
+        // 即使 minSdk >= 21，显式声明可确保 AGP 生成优化的主 dex 划分
+        multiDexEnabled = true
     }
 
     signingConfigs {
         create("release") {
-            // 从环境变量或 local.properties 读取签名配置
-            val storeFilePath =  ""
-            val storePassword = "android"
-            val keyAlias = "androiddebugkey"
-            val keyPassword = "android"
-
-            if (storeFilePath.isNotEmpty()) {
-                storeFile =  file("../debug-key.jks")
-                this.storePassword = storePassword
-                this.keyAlias = keyAlias
-                this.keyPassword = keyPassword
+            // 优先从 local.properties 读取签名配置（正式发布用）
+            val localPropsFile = rootProject.file("local.properties")
+            val localProps = Properties().apply {
+                if (localPropsFile.exists()) load(localPropsFile.inputStream())
             }
+
+            val storeFilePath = localProps.getProperty("STORE_FILE_PATH", "")
+            val storePwd = localProps.getProperty("STORE_PASSWORD", "android")
+            val alias = localProps.getProperty("KEY_ALIAS", "androiddebugkey")
+            val keyPwd = localProps.getProperty("KEY_PASSWORD", "android")
+
+            // 如果 local.properties 中未配置，则回退到项目自带的 debug-key.jks
+            val resolvedStoreFile = if (storeFilePath.isNotEmpty()) file(storeFilePath) else file("../debug-key.jks")
+
+            storeFile = resolvedStoreFile
+            storePassword = storePwd
+            this.keyAlias = alias
+            this.keyPassword = keyPwd
         }
     }
 
@@ -44,23 +54,9 @@ android {
             isDebuggable = true
             applicationIdSuffix = ".debug"
             versionNameSuffix = "-debug"
+            signingConfig = signingConfigs.getByName("release")
 
             buildConfigField("String", "ENVIRONMENT", "\"DEV\"")
-            buildConfigField("Boolean", "ENABLE_LOG", "true")
-        }
-
-        create("staging") {
-            initWith(getByName("debug"))
-            isMinifyEnabled = true
-            isDebuggable = false
-            applicationIdSuffix = ".staging"
-            versionNameSuffix = "-staging"
-            proguardFiles(
-                getDefaultProguardFile("proguard-android-optimize.txt"),
-                "proguard-rules.pro",
-            )
-
-            buildConfigField("String", "ENVIRONMENT", "\"TEST\"")
             buildConfigField("Boolean", "ENABLE_LOG", "true")
         }
 
@@ -77,15 +73,6 @@ android {
             buildConfigField("String", "ENVIRONMENT", "\"PROD\"")
             buildConfigField("Boolean", "ENABLE_LOG", "false")
         }
-    }
-
-    compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_11
-        targetCompatibility = JavaVersion.VERSION_11
-    }
-
-    kotlinOptions {
-        jvmTarget = "11"
     }
 
     buildFeatures {
@@ -146,20 +133,23 @@ dependencies {
     // Navigation
     implementation(libs.androidx.navigation.compose)
 
+    // MultiDex（minSdk >= 21 时系统天然支持，但声明依赖以确保主 dex 划分优化）
+    implementation(libs.androidx.multidex)
+
     // Debug
     debugImplementation(libs.compose.ui.tooling)
 
-    // Testing
-    testImplementation(libs.junit5.api)
-    testRuntimeOnly(libs.junit5.engine)
-    testImplementation(libs.mockk)
-    testImplementation(libs.kotlinx.coroutines.test)
-    testImplementation(libs.turbine)
-
-    androidTestImplementation(libs.androidx.junit)
-    androidTestImplementation(libs.androidx.espresso.core)
-    androidTestImplementation(platform(libs.compose.bom))
-    androidTestImplementation(libs.compose.ui.test.junit4)
+//    // Testing
+//    testImplementation(libs.junit5.api)
+//    testRuntimeOnly(libs.junit5.engine)
+//    testImplementation(libs.mockk)
+//    testImplementation(libs.kotlinx.coroutines.test)
+//    testImplementation(libs.turbine)
+//
+//    androidTestImplementation(libs.androidx.junit)
+//    androidTestImplementation(libs.androidx.espresso.core)
+//    androidTestImplementation(platform(libs.compose.bom))
+//    androidTestImplementation(libs.compose.ui.test.junit4)
 }
 
 tasks.withType<Test> {

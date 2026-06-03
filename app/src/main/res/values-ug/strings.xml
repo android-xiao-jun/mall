@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Mall</string>
+
+    <!-- ئومۇمىي -->
+    <string name="common_confirm">جەزملەش</string>
+    <string name="common_cancel">بىكار قىلىش</string>
+    <string name="common_save">ساقلاش</string>
+    <string name="common_delete">ئۆچۈرۈش</string>
+    <string name="common_edit">تەھرىرلەش</string>
+    <string name="common_search">ئىزدەش</string>
+    <string name="common_loading">يۈكلىنىۋاتىدۇ…</string>
+    <string name="common_retry">قايتا سىناش</string>
+    <string name="common_no_data">ساندات يوق</string>
+    <string name="common_error">مەشغۇلات مەغلۇب بولدى، كېيىن قايتا سىناڭ</string>
+    <string name="common_success">مۇۋەپپەقىيەتلىك</string>
+
+    <!-- يولباش -->
+    <string name="nav_home">باش بەت</string>
+    <string name="nav_chat">پاراڭ</string>
+    <string name="nav_live">بىۋاستە</string>
+    <string name="nav_wallet">ھەمحانە</string>
+    <string name="nav_profile">مېنىڭ</string>
+
+    <!-- كىرىش -->
+    <string name="login_title">كىرىش</string>
+    <string name="login_phone_hint">تېلېفون نومۇرىنى كىرگۈزۈڭ</string>
+    <string name="login_code_hint">دەلىللەش كودىنى كىرگۈزۈڭ</string>
+    <string name="login_get_code">كود ئېلىش</string>
+    <string name="login_submit">كىرىش</string>
+
+    <!-- ھەمحانە -->
+    <string name="wallet_title">ھەمحانە</string>
+    <string name="wallet_balance">قالدۇق</string>
+    <string name="wallet_recharge">تولۇقلاش</string>
+    <string name="wallet_withdraw">چىقىرىش</string>
+
+    <!-- بىۋاستە ئاڭلىتىش -->
+    <string name="live_title">بىۋاستە</string>
+    <string name="live_start">ئاڭلىتىشنى باشلاش</string>
+    <string name="live_end">ئاڭلىتىشنى ئاخىرلاشتۇرۇش</string>
+    <string name="live_audience_count">%1$d كۆرگۈچى</string>
+
+    <!-- ئاۋازلىق ئۆي -->
+    <string name="voice_room_title">ئاۋازلىق ئۆي</string>
+    <string name="voice_room_create">ئۆي قۇرۇش</string>
+    <string name="voice_room_join">قاتنىشىش</string>
+
+    <!-- سوۋغات -->
+    <string name="gift_title">سوۋغات</string>
+    <string name="gift_send">ئەۋەتىش</string>
+
+    <!-- پاراڭ -->
+    <string name="chat_title">پاراڭ</string>
+    <string name="chat_input_hint">ئۇچۇر يېزىڭ…</string>
+    <string name="chat_send">ئەۋەتىش</string>
+</resources>
