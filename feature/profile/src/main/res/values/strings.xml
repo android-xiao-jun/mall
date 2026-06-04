@@ -2,4 +2,7 @@
 <resources>
     <string name="profile_title">个人中心</string>
     <string name="profile_setting">设置</string>
+    <string name="profile_logout">退出登录</string>
+    <string name="profile_login">点击登录</string>
+    <string name="profile_login_hint">登录后查看更多功能</string>
 </resources>

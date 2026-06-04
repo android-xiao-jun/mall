@@ -2,4 +2,7 @@
 <resources>
     <string name="profile_title">Profile</string>
     <string name="profile_setting">Settings</string>
+    <string name="profile_logout">Log Out</string>
+    <string name="profile_login">Tap to Log In</string>
+    <string name="profile_login_hint">Log in to access more features</string>
 </resources>

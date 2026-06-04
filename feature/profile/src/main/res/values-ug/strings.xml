@@ -2,4 +2,7 @@
 <resources>
     <string name="profile_title">مېنىڭ</string>
     <string name="profile_setting">تەڭشەكلەر</string>
+    <string name="profile_logout">چىكىنىش</string>
+    <string name="profile_login">كىرىش</string>
+    <string name="profile_login_hint">تېخىمۇ كۆپ ئىقتىدارلاردىن بەھرىمەن بولۇش ئۈچۈن كىرىڭ</string>
 </resources>

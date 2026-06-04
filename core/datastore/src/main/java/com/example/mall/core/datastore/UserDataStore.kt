@@ -3,6 +3,7 @@ package com.example.mall.core.datastore
 import android.content.Context
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
+import androidx.datastore.preferences.core.booleanPreferencesKey
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.longPreferencesKey
 import androidx.datastore.preferences.core.stringPreferencesKey
@@ -37,6 +38,7 @@ class UserDataStore @Inject constructor(
         val KEY_TOKEN_EXPIRE_TIME = longPreferencesKey("token_expire_time")
 
         // User Info
+        val KEY_IS_LOGIN = booleanPreferencesKey("is_login")
         val KEY_USER_ID = stringPreferencesKey("user_id")
         val KEY_USER_NICKNAME = stringPreferencesKey("user_nickname")
         val KEY_USER_AVATAR = stringPreferencesKey("user_avatar")
@@ -89,6 +91,32 @@ class UserDataStore @Inject constructor(
 
     // ==================== User Info ====================
 
+    suspend fun saveIsLogin(isLogin: Boolean) {
+        dataStore.edit { it[KEY_IS_LOGIN] = isLogin }
+    }
+
+    fun isLoginFlow(): Flow<Boolean> {
+        return dataStore.data.map { it[KEY_IS_LOGIN] ?: false }
+    }
+
+    /**
+     * 便捷方法：一键保存用户信息（登录成功后调用）
+     */
+    suspend fun saveUserInfo(
+        userId: String,
+        nickname: String,
+        avatar: String,
+        phone: String,
+    ) {
+        dataStore.edit {
+            it[KEY_IS_LOGIN] = true
+            it[KEY_USER_ID] = userId
+            it[KEY_USER_NICKNAME] = nickname
+            it[KEY_USER_AVATAR] = avatar
+            it[KEY_USER_PHONE] = phone
+        }
+    }
+
     suspend fun saveUserId(userId: String) {
         dataStore.edit { it[KEY_USER_ID] = userId }
     }
@@ -115,6 +143,10 @@ class UserDataStore @Inject constructor(
 
     suspend fun saveUserPhone(phone: String) {
         dataStore.edit { it[KEY_USER_PHONE] = phone }
+    }
+
+    fun getUserPhoneFlow(): Flow<String?> {
+        return dataStore.data.map { it[KEY_USER_PHONE] }
     }
 
     // ==================== App Config ====================
@@ -163,6 +195,7 @@ class UserDataStore @Inject constructor(
 
     suspend fun clearUserData() {
         dataStore.edit { preferences ->
+            preferences.remove(KEY_IS_LOGIN)
             preferences.remove(KEY_ACCESS_TOKEN)
             preferences.remove(KEY_REFRESH_TOKEN)
             preferences.remove(KEY_TOKEN_EXPIRE_TIME)

@@ -2,4 +2,7 @@
 <resources>
     <string name="profile_title">Профиль</string>
     <string name="profile_setting">Баптаулар</string>
+    <string name="profile_logout">Шығу</string>
+    <string name="profile_login">Кіру</string>
+    <string name="profile_login_hint">Көбірек мүмкіндіктер үшін кіріңіз</string>
 </resources>

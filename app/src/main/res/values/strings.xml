@@ -54,4 +54,15 @@
     <string name="chat_title">聊天</string>
     <string name="chat_input_hint">输入消息…</string>
     <string name="chat_send">发送</string>
+
+    <!-- 隐私协议 -->
+    <string name="privacy_agreement_title">用户协议与隐私政策</string>
+    <string name="privacy_agreement_welcome">欢迎使用本应用。</string>
+    <string name="privacy_agreement_content_prefix">为了更好地保护您的个人权益，请您阅读并同意</string>
+    <string name="privacy_agreement_user_agreement">《用户协议》</string>
+    <string name="privacy_agreement_and">和</string>
+    <string name="privacy_agreement_privacy_policy">《隐私政策》</string>
+    <string name="privacy_agreement_content_suffix">点击同意表示您已阅读并接受相关条款。</string>
+    <string name="privacy_agreement_agree">同意</string>
+    <string name="privacy_agreement_disagree">拒绝</string>
 </resources>

@@ -45,6 +45,9 @@ fun MallNavHost(
     showBottomBar: Boolean,
     localeManager: LocaleManager,
     themeManager: ThemeManager,
+    isLoggedIn: Boolean = false,
+    onLogout: () -> Unit = {},
+    onRequireLogin: () -> Unit = {},
 ) {
     Scaffold(
         bottomBar = {
@@ -100,7 +103,10 @@ fun MallNavHost(
 
             composable(route = BottomNavItem.PROFILE.route) {
                 ProfileScreen(
+                    isLoggedIn = isLoggedIn,
                     onNavigateToSetting = { navController.navigate(SettingRoute) },
+                    onLogout = onLogout,
+                    onRequireLogin = onRequireLogin,
                 )
             }
 

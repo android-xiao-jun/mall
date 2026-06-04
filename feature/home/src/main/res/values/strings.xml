@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools">
     <string name="nav_home" tools:ignore="MissingTranslation">首页</string>
+    <string name="home_not_logged_in">未登录</string>
+    <string name="home_user_info_format">ID: %1$s  |  手机: %2$s</string>
 
 </resources>

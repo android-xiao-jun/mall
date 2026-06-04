@@ -1,6 +1,7 @@
 package com.example.mall.feature.login.presentation.viewmodel
 
 import androidx.lifecycle.SavedStateHandle
+import android.content.Context
 import com.example.mall.core.common.dispatcher.IoDispatcher
 import com.example.mall.core.common.result.Result
 import com.example.mall.core.datastore.UserDataStore
@@ -10,11 +11,13 @@ import com.example.mall.feature.login.presentation.effect.LoginEffect
 import com.example.mall.feature.login.presentation.intent.LoginIntent
 import com.example.mall.feature.login.presentation.state.LoginUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
+import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.withContext
 import timber.log.Timber
 import javax.inject.Inject
+import com.example.mall.feature.login.R
 
 @HiltViewModel
 class LoginViewModel @Inject constructor(
@@ -22,6 +25,7 @@ class LoginViewModel @Inject constructor(
     private val userRepository: UserRepository,
     private val userDataStore: UserDataStore,
     @IoDispatcher private val ioDispatcher: CoroutineDispatcher,
+    @ApplicationContext private val context: Context,
 ) : BaseViewModel<LoginIntent, LoginUiState, LoginEffect>() {
 
     override fun createInitialState() = LoginUiState()
@@ -33,24 +37,20 @@ class LoginViewModel @Inject constructor(
                 is LoginIntent.CodeChanged -> handleCodeChanged(intent.code)
                 is LoginIntent.SendSmsCode -> handleSendSmsCode()
                 is LoginIntent.Login -> handleLogin()
-                is LoginIntent.WechatLogin -> handleWechatLogin()
-                is LoginIntent.AppleLogin -> handleAppleLogin()
-                is LoginIntent.AgreePolicy -> handleAgreePolicy(true)
-                is LoginIntent.DisagreePolicy -> handleAgreePolicy(false)
             }
         }
     }
 
     private fun handlePhoneChanged(phone: String) {
-        setState { copy(phone = phone, errorMessage = null) }
+        // 限制只能输入数字，最长11位
+        val filtered = phone.filter { it.isDigit() }.take(11)
+        setState { copy(phone = filtered, errorMessage = null) }
     }
 
     private fun handleCodeChanged(code: String) {
-        setState { copy(code = code, errorMessage = null) }
-    }
-
-    private fun handleAgreePolicy(agreed: Boolean) {
-        setState { copy(isPolicyAgreed = agreed) }
+        // 限制只能输入数字
+        val filtered = code.filter { it.isDigit() }
+        setState { copy(code = filtered, errorMessage = null) }
     }
 
     private suspend fun handleSendSmsCode() {
@@ -60,14 +60,13 @@ class LoginViewModel @Inject constructor(
 
         // 模拟发送验证码
         withContext(ioDispatcher) {
-            delay(1000)
+            delay(500)
         }
 
         setState { copy(isSmsCodeSending = false) }
-        sendEffect(LoginEffect.StartSmsCountdown)
-        sendEffect(LoginEffect.ShowToast("验证码已发送"))
+        sendEffect(LoginEffect.ShowToast(context.getString(R.string.login_code_sent)))
 
-        // 启动倒计时
+        // 启动60秒倒计时
         startCountdown()
     }
 
@@ -86,38 +85,30 @@ class LoginViewModel @Inject constructor(
 
         when (val result = userRepository.login(currentState.phone, currentState.code)) {
             is Result.Success -> {
-                // 保存 Token 和用户信息
+                // 保存 Token 和用户信息到 DataStore
                 withContext(ioDispatcher) {
                     userDataStore.saveToken(result.data.token)
                     userDataStore.saveRefreshToken(result.data.refreshToken)
                     userDataStore.saveTokenExpireTime(result.data.expireTime)
-                    userDataStore.saveUserId(result.data.user.uid)
-                    userDataStore.saveUserNickname(result.data.user.nickname)
-                    userDataStore.saveUserAvatar(result.data.user.avatar)
+                    // 保存用户信息（包含 isLogin = true）
+                    userDataStore.saveUserInfo(
+                        userId = result.data.user.uid,
+                        nickname = result.data.user.nickname,
+                        avatar = result.data.user.avatar,
+                        phone = result.data.user.phone,
+                    )
                 }
 
                 setState { copy(isLoggingIn = false) }
-                sendEffect(LoginEffect.NavigateToHome)
+                sendEffect(LoginEffect.LoginSuccess)
             }
             is Result.Error -> {
                 setState { copy(isLoggingIn = false, errorMessage = result.exception.message) }
-                sendEffect(LoginEffect.ShowError(result.exception.message ?: "登录失败"))
+                sendEffect(LoginEffect.ShowError(result.exception.message ?: context.getString(R.string.login_failed)))
             }
             is Result.Loading -> {
                 // 不应该到这里
             }
         }
-    }
-
-    private suspend fun handleWechatLogin() {
-        Timber.d("Wechat login")
-        // 实际接入微信 SDK
-        sendEffect(LoginEffect.ShowToast("微信登录开发中"))
-    }
-
-    private suspend fun handleAppleLogin() {
-        Timber.d("Apple login")
-        // 实际接入 Apple Sign In
-        sendEffect(LoginEffect.ShowToast("Apple 登录开发中"))
     }
 }

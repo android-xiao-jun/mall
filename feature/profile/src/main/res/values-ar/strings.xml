@@ -2,4 +2,7 @@
 <resources>
     <string name="profile_title">الملف الشخصي</string>
     <string name="profile_setting">الإعدادات</string>
+    <string name="profile_logout">تسجيل الخروج</string>
+    <string name="profile_login">تسجيل الدخول</string>
+    <string name="profile_login_hint">سجّل الدخول للوصول إلى المزيد من الميزات</string>
 </resources>
